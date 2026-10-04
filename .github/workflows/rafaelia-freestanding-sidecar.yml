@@ -1,0 +1,32 @@
+name: RAFAELIA LuaJIT Freestanding Sidecar
+
+on:
+  pull_request:
+    paths:
+      - 'etc/rafaelia_freestanding/**'
+      - 'THIRD_PARTY_PROVENANCE.md'
+      - '.github/workflows/rafaelia-freestanding-sidecar.yml'
+  push:
+    branches:
+      - v2.1
+    paths:
+      - 'etc/rafaelia_freestanding/**'
+      - 'THIRD_PARTY_PROVENANCE.md'
+      - '.github/workflows/rafaelia-freestanding-sidecar.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freestanding-sidecar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Run freestanding boundary gate
+        shell: sh
+        run: sh etc/rafaelia_freestanding/check.sh
